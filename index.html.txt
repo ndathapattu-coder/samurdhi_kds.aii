@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Samurdhi KDS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Samurdhi KDS System</h1>
+
+<a href="login.html">Admin Login</a>
+
+<hr>
+
+<h2>Samurdhi Application</h2>
+
+<input id="name" placeholder="Name">
+<input id="nic" placeholder="NIC">
+<input id="address" placeholder="Address">
+<input id="income" placeholder="Income">
+
+<button onclick="submitForm()">Submit</button>
+
+<p id="msg"></p>
+
+<script type="module">
+import { db } from "./firebase.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.submitForm = async function () {
+  try {
+    await addDoc(collection(db, "applications"), {
+      name: document.getElementById("name").value,
+      nic: document.getElementById("nic").value,
+      address: document.getElementById("address").value,
+      income: document.getElementById("income").value,
+      status: "pending",
+      date: new Date()
+    });
+
+    document.getElementById("msg").innerText = "Submitted Successfully!";
+  } catch (e) {
+    document.getElementById("msg").innerText = e.message;
+  }
+};
+</script>
+
+</body>
+</html>
